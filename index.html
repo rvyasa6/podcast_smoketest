@@ -3,95 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextGen Podcasts</title>
+    <title>Podcasts+ Prototype</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Apple-esque system font stack */
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        .glass-panel { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-panel { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .playing-bar { animation: pulse 1.5s infinite ease-in-out; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
     </style>
 </head>
-<body class="bg-zinc-950 text-white h-screen overflow-hidden flex flex-col">
+<body class="bg-zinc-950 text-white h-screen overflow-hidden flex flex-col selection:bg-teal-500 selection:text-white">
 
     <div class="flex flex-1 overflow-hidden">
         
-        <nav class="w-64 p-6 hidden md:block border-r border-zinc-800">
-            <h1 class="text-2xl font-bold mb-10 tracking-tight">Podcasts<span class="text-purple-500">+</span></h1>
+        <nav class="w-64 p-6 hidden md:block border-r border-zinc-800/50">
+            <h1 class="text-2xl font-extrabold mb-10 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">Podcasts+</h1>
             <ul class="space-y-6 text-zinc-400 font-medium">
-                <li class="text-white flex items-center gap-3 cursor-pointer"><i class="fas fa-home"></i> Listen Now</li>
-                <li class="hover:text-white transition flex items-center gap-3 cursor-pointer"><i class="fas fa-compass"></i> Discover</li>
-                <li class="hover:text-white transition flex items-center gap-3 cursor-pointer text-purple-400"><i class="fas fa-users"></i> Co-Listen Spaces</li>
-                <li class="hover:text-white transition flex items-center gap-3 cursor-pointer"><i class="fas fa-brain"></i> AI Transcripts</li>
+                <li class="text-white flex items-center gap-3 cursor-pointer"><i class="fas fa-home w-5"></i> Listen Now</li>
+                <li class="hover:text-white transition flex items-center gap-3 cursor-pointer"><i class="fas fa-compass w-5"></i> Discover</li>
+                <li class="hover:text-white transition flex items-center gap-3 cursor-pointer text-teal-400"><i class="fas fa-users w-5"></i> Co-Listen Spaces</li>
+                <li class="hover:text-white transition flex items-center gap-3 cursor-pointer"><i class="fas fa-brain w-5"></i> AI Transcripts</li>
             </ul>
         </nav>
 
-        <main class="flex-1 p-8 overflow-y-auto hide-scrollbar">
+        <main class="flex-1 p-8 overflow-y-auto hide-scrollbar pb-32">
             <div class="max-w-4xl mx-auto">
                 
                 <header class="flex justify-between items-center mb-10">
-                    <h2 class="text-3xl font-bold">Collaborative Queue</h2>
+                    <h2 class="text-3xl font-bold tracking-tight">Collaborative Queue</h2>
                     <div class="flex items-center gap-[-10px]">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full border-2 border-zinc-950 z-20" alt="User 1">
-                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full border-2 border-zinc-950 z-10 -ml-3" alt="User 2">
-                        <button class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center -ml-3 z-0 hover:bg-zinc-700 transition"><i class="fas fa-plus text-sm"></i></button>
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full border-2 border-zinc-950 z-30 object-cover" title="Sarah" alt="User 1">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full border-2 border-zinc-950 z-20 -ml-3 object-cover" title="Mark" alt="User 2">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full border-2 border-zinc-950 z-10 -ml-3 object-cover" title="Elena" alt="User 3">
+                        <button class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center -ml-3 z-0 hover:bg-zinc-700 transition border-2 border-zinc-950"><i class="fas fa-plus text-sm"></i></button>
                     </div>
                 </header>
 
-                <div class="relative rounded-3xl overflow-hidden mb-12 group cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80" class="w-full h-80 object-cover group-hover:scale-105 transition duration-700" alt="Podcast Cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/40 to-transparent"></div>
+                <div class="relative rounded-3xl overflow-hidden mb-12 group cursor-pointer shadow-2xl shadow-teal-900/20" onclick="playTrack('hero')">
+                    <img src="https://images.unsplash.com/photo-1614149162883-504ce4d13909?auto=format&fit=crop&w=1200&q=80" class="w-full h-80 object-cover group-hover:scale-105 transition duration-700" alt="Podcast Cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent"></div>
                     <div class="absolute bottom-0 left-0 p-8 w-full">
-                        <span class="bg-purple-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">Live Co-Listen</span>
-                        <h3 class="text-4xl font-bold mb-2">The Future of Spatial Audio</h3>
-                        <p class="text-zinc-300 max-w-xl">Join Sarah and Mark as they discuss the next generation of immersive soundscapes. <span class="text-purple-400">AI Summary available.</span></p>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="bg-teal-500 text-zinc-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-zinc-950 animate-pulse"></span> Live Co-Listen
+                            </span>
+                        </div>
+                        <h3 class="text-4xl font-bold mb-2 tracking-tight">The Future of Spatial Audio</h3>
+                        <p class="text-zinc-300 max-w-xl text-sm leading-relaxed">Join Sarah and Mark as they discuss the next generation of immersive soundscapes. <span class="text-teal-400 font-medium cursor-pointer hover:underline">Read AI Summary</span></p>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                            <i class="fas fa-play text-2xl text-white ml-1"></i>
+                        </div>
                     </div>
                 </div>
 
-                <h3 class="text-xl font-bold mb-6">Up Next in Shared Queue</h3>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-4 rounded-2xl hover:bg-zinc-800/50 transition cursor-pointer group">
-                        <div class="flex items-center gap-4">
-                            <img src="https://images.unsplash.com/photo-1559523161-0fc0d8b38a7a?auto=format&fit=crop&w=100&q=80" class="w-16 h-16 rounded-xl object-cover" alt="Episode thumbnail">
-                            <div>
-                                <h4 class="font-semibold text-lg">Design Systems at Scale</h4>
-                                <p class="text-zinc-400 text-sm">Tech Horizons • Added by David</p>
-                            </div>
-                        </div>
-                        <button class="text-zinc-400 hover:text-white opacity-0 group-hover:opacity-100 transition"><i class="far fa-play-circle text-3xl"></i></button>
+                <h3 class="text-xl font-bold mb-6 tracking-tight">Up Next in Shared Queue</h3>
+                <div class="space-y-3" id="queue-container">
                     </div>
-                </div>
             </div>
         </main>
     </div>
 
     <div class="glass-panel w-full p-4 flex items-center justify-between px-8 absolute bottom-0 z-50">
         <div class="flex items-center gap-4 w-1/3">
-            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=100&q=80" class="w-14 h-14 rounded-xl object-cover" alt="Playing Now">
+            <img id="player-img" src="https://images.unsplash.com/photo-1614149162883-504ce4d13909?auto=format&fit=crop&w=100&q=80" class="w-14 h-14 rounded-xl object-cover shadow-lg" alt="Playing Now">
             <div>
-                <h4 class="font-bold text-sm">The Future of Spatial Audio</h4>
-                <p class="text-zinc-400 text-xs">Innovation Daily</p>
+                <h4 id="player-title" class="font-bold text-sm truncate w-48">The Future of Spatial Audio</h4>
+                <p id="player-show" class="text-zinc-400 text-xs mt-0.5">Innovation Daily</p>
             </div>
         </div>
         
         <div class="flex flex-col items-center w-1/3">
             <div class="flex items-center gap-8 mb-2">
                 <button class="text-zinc-400 hover:text-white transition"><i class="fas fa-backward-step"></i></button>
-                <button class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition shadow-[0_0_15px_rgba(255,255,255,0.3)]"><i class="fas fa-play ml-1"></i></button>
+                <button id="play-pause-btn" class="w-12 h-12 rounded-full bg-white text-zinc-950 flex items-center justify-center hover:scale-105 transition shadow-[0_0_20px_rgba(20,184,166,0.3)]" onclick="togglePlay()">
+                    <i id="play-icon" class="fas fa-play ml-1"></i>
+                </button>
                 <button class="text-zinc-400 hover:text-white transition"><i class="fas fa-forward-step"></i></button>
             </div>
-            <div class="w-full max-w-md bg-zinc-700 h-1.5 rounded-full overflow-hidden flex">
-                <div class="bg-white w-1/3 h-full rounded-full relative"></div>
+            <div class="w-full max-w-md flex items-center gap-3">
+                <span id="time-current" class="text-[10px] text-zinc-500 font-medium">0:00</span>
+                <div class="flex-1 bg-zinc-800 h-1.5 rounded-full overflow-hidden cursor-pointer">
+                    <div id="progress-fill" class="bg-teal-400 w-0 h-full rounded-full relative transition-all duration-300 ease-linear"></div>
+                </div>
+                <span id="time-total" class="text-[10px] text-zinc-500 font-medium">45:20</span>
             </div>
         </div>
 
         <div class="flex items-center justify-end gap-6 w-1/3 text-zinc-400">
-            <button class="hover:text-white transition tooltip" title="Spatial Audio Active"><i class="fas fa-headphones"></i></button>
-            <button class="hover:text-white transition tooltip" title="AI Transcript"><i class="fas fa-closed-captioning"></i></button>
-            <button class="hover:text-white transition tooltip" title="Share Queue"><i class="fas fa-share-nodes"></i></button>
+            <button class="hover:text-teal-400 transition" onclick="this.classList.toggle('text-teal-400')"><i class="fas fa-headphones" title="Spatial Audio"></i></button>
+            <button class="hover:text-teal-400 transition" onclick="this.classList.toggle('text-teal-400')"><i class="fas fa-closed-captioning" title="Live Transcript"></i></button>
+            <button class="hover:text-white transition"><i class="fas fa-share-nodes" title="Share"></i></button>
         </div>
     </div>
 
+    <script>
+        // Dummy Data for the Queue
+        const podcastDatabase = {
+            'hero': {
+                title: "The Future of Spatial Audio",
+                show: "Innovation Daily",
+                img: "https://images.unsplash.com/photo-1614149162883-504ce4d13909?auto=format&fit=crop&w=400&q=80",
+                duration: "45:20",
+                addedBy: "Sarah"
+            },
+            'track1': {
+                title: "Design Systems at Scale",
+                show: "Tech Horizons",
+                img: "https://images.unsplash.com/photo-1559523161-0fc0d8b38a7a?auto=format&fit=crop&w=200&q=80",
+                duration: "32:15",
+                addedBy: "David"
+            },
+            'track2': {
+                title: "The Psychology of UI",
+                show: "Design Details",
+                img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80",
+                duration: "51:00",
+                addedBy: "Elena"
+            },
+            'track3': {
+                title: "M2 vs M3 Chips Deep Dive",
+                show: "Silicon Valley Talk",
+                img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=200&q=80",
+                duration: "28:45",
+                addedBy: "Mark"
+            }
+        };
+
+        // Render the Queue list dynamically
+        const queueContainer = document.getElementById('queue-container');
+        ['track1', 'track2', 'track3'].forEach(trackId => {
+            const track = podcastDatabase[trackId];
+            const html = `
+                <div class="flex items-center justify-between p-3 rounded-2xl hover:bg-zinc-800/60 transition cursor-pointer group border border-transparent hover:border-zinc-700" onclick="playTrack('${trackId}')">
+                    <div class="flex items-center gap-4">
+                        <img src="${track.img}" class="w-14 h-14 rounded-xl object-cover shadow-sm" alt="Thumbnail">
+                        <div>
+                            <h4 class="font-semibold text-base text-zinc-100 group-hover:text-teal-400 transition">${track.title}</h4>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <p class="text-zinc-400 text-xs">${track.show}</p>
+                                <span class="text-zinc-600 text-[10px]">•</span>
+                                <p class="text-zinc-500 text-xs flex items-center gap-1">
+                                    <i class="fas fa-user-circle text-[10px]"></i> Added by ${track.addedBy}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs text-zinc-600 font-medium">${track.duration}</span>
+                        <button class="text-teal-400 opacity-0 group-hover:opacity-100 transition transform group-hover:scale-110">
+                            <i class="fas fa-play-circle text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            queueContainer.innerHTML += html;
+        });
+
+        // Player State Variables
+        let isPlaying = false;
+        let progressInterval;
+        let currentProgress = 0; // percentage
+
+        // Elements
+        const playIcon = document.getElementById('play-icon');
+        const playBtn = document.getElementById('play-pause-btn');
+        const progressFill = document.getElementById('progress-fill');
+        const timeCurrent = document.getElementById('time-current');
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                // Change to Pause icon
+                playIcon.classList.remove('fa-play', 'ml-1');
+                playIcon.classList.add('fa-pause');
+                playBtn.classList.add('shadow-[0_0_30px_rgba(20,184,166,0.6)]');
+                
+                // Simulate progress bar moving
+                progressInterval = setInterval(() => {
+                    currentProgress += 0.1;
+                    if(currentProgress > 100) currentProgress = 0;
+                    progressFill.style.width = currentProgress + '%';
+                    
+                    // Mock time update (just visuals)
+                    let minutes = Math.floor((currentProgress * 45) / 100);
+                    let seconds = Math.floor(((currentProgress * 45) % 100) * 0.6);
+                    timeCurrent.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                }, 100);
+            } else {
+                // Change to Play icon
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play', 'ml-1');
+                playBtn.classList.remove('shadow-[0_0_30px_rgba(20,184,166,0.6)]');
+                clearInterval(progressInterval);
+            }
+        }
+
+        // Function to load a track from the queue into the bottom player
+        function playTrack(trackId) {
+            const track = podcastDatabase[trackId];
+            
+            // Update UI
+            document.getElementById('player-img').src = track.img;
+            document.getElementById('player-title').innerText = track.title;
+            document.getElementById('player-show').innerText = track.show;
+            document.getElementById('time-total').innerText = track.duration;
+            
+            // Reset Progress
+            currentProgress = 0;
+            progressFill.style.width = '0%';
+            timeCurrent.innerText = '0:00';
+
+            // Auto-play if not already playing
+            if (!isPlaying) {
+                togglePlay();
+            }
+        }
+    </script>
 </body>
 </html>
